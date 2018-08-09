@@ -1,7 +1,7 @@
 <body onload="startTime(); GetJson();">
 <div>
 <div id="txt"></div>
-<ul>
+<ul id="row1">
   <li>
     <div class="containIcons">
       <div data-element="icon_Obj0">
@@ -47,6 +47,8 @@
       <div class="Text Obj2"></div>
     </div>
   </li>
+</ul>
+<ul id="row2">
   <li>
     <div class="containIcons">
       <div data-element="icon_Obj3">
@@ -94,9 +96,6 @@
   </li>
 </ul>
 </div>
-<form class="SearchForm"  method="get" action="https://google.com/search" autocomplete="off">
-  <input class="searchBox" id="searchBox" name="q" type="text" placeholder="" autofocus>
-</form>
 </body>
 
 <style>
@@ -106,7 +105,9 @@
 body {
   background-color: #161616;
   font-family: 'Josefin Sans', sans-serif;
-}
+transform: scale(1.35);
+  overflow:hidden;}
+
 
 .SearchForm {
   position: fixed;
@@ -130,23 +131,37 @@ body {
 
 #txt {
   position: fixed;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 5em;
   color: white;
 }
 
-ul {
+ul#row1 {
   position: fixed;
-  top: 50%;
+  top: 21%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
   text-align: center;
   justify-content: center;
-  list-style-type: none;
+   list-style-type: none;
   padding: 0;
+
+}
+
+ul#row2 {
+  position: fixed;
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  text-align: center;
+  justify-content: center;
+   list-style-type: none;
+  padding: 0;
+
 }
 
 li {
@@ -376,7 +391,7 @@ li {
 }
 
 
-/* Animations */
+/* Animations
 
 @keyframes spin {
   100% { transform: rotate(360deg); }
@@ -437,7 +452,7 @@ li {
     opacity: 0.2;
   }
 }
-
+ */
 </style>
 
 <script>
@@ -447,17 +462,23 @@ function startTime() {
     var h = today.getHours();
     var m = today.getMinutes();
     m = checkTime(m);
+    h = checkTime2(h);
     document.getElementById('txt').innerHTML =
     h + ":" + m;
-    var t = setTimeout(startTime, 500);
+    // if (h % 3 == 0 && today.getMinutes() == 0 && s == 0) {GetJson()} 
+    var t = setTimeout(startTime, 1000);
 }
-function checkTime(i) {
-    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
+function checkTime(m) {
+    if (m < 10) {m = "0" + m};  //add zero in front of numbers < 10
+    return m;
+}
+function checkTime2(h) {
+    if (h > 12) {h = h - 12}; // Function converts 24hr time to 12hr (Without AM/PM)
+    return h;
 }
 
-var city = "London" // Replace London with your City
-let url = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=metric&APPID=22d4e741c978538ccba7d43999bb6441"; //change metric to imperial to change units, go to line 519 
+var city = "London" // Replace London with your Citry
+let url = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&APPID=22d4e741c978538ccba7d43999bb6441";
 
 var Output;
 async function GetJson() {
@@ -517,33 +538,33 @@ function AddDayAndTemerature(InputDays, InputHours) {
 
   switch (((new Date().getDay()) + InputDays) % 7) {
       case 0:
-        console.log("Sunday, " + Output.list[InputHours].main.temp + "C°")
-        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Sunday, " + Output.list[InputHours].main.temp + "C°" // Change the C° for another unit
+        console.log("Sunday, " + Math.round(Output.list[InputHours].main.temp) + "F°")
+        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Sunday " + Math.round(Output.list[InputHours].main.temp) + "F°"
         break;
       case 1:
-        console.log("Monday, " + Output.list[InputHours].main.temp + "C°")
-        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Monday, " + Output.list[InputHours].main.temp + "C°"
+        console.log("Monday, " + Math.round(Output.list[InputHours].main.temp) + "F°")
+        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Monday " + Math.round(Output.list[InputHours].main.temp) + "F°"
         break;
       case 2:
-        console.log("Tuesday, " + Output.list[InputHours].main.temp + "C°")
-        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Tuesday, " + Output.list[InputHours].main.temp + "C°"
+        console.log("Tuesday, " + Math.round(Output.list[InputHours].main.temp) + "F°")
+        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Tuesday " + Math.round(Output.list[InputHours].main.temp) + "F°"
         break;
       case 3:
-        console.log("Wednesday, " + Output.list[InputHours].main.temp + "C°")
-        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Wednesday, " + Output.list[InputHours].main.temp + "C°"
+        console.log("Wednesday, " + Math.round(Output.list[InputHours].main.temp) + "F°")
+        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Wednesday " + Math.round(Output.list[InputHours].main.temp) + "F°"
         break;
       case 4:
-        console.log("Thursday, " + Output.list[InputHours].main.temp + "C°")
-        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Thursday, " + Output.list[InputHours].main.temp + "C°"
+        console.log("Thursday, " + Math.round(Output.list[InputHours].main.temp) + "F°")
+        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Thursday " + Math.round(Output.list[InputHours].main.temp) + "F°"
         break;
       case 5:
       console.log(InputHours)
-        console.log("Friday, " + Output.list[InputHours].main.temp + "C°")
-        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Friday, " + Output.list[InputHours].main.temp + "C°"
+        console.log("Friday, " + Math.round(Output.list[InputHours].main.temp) + "F°")
+        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Friday " + Math.round(Output.list[InputHours].main.temp) + "F°"
         break;
       case 6:
-        console.log("Saturday, " + Output.list[InputHours].main.temp + "C°")
-        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Saturday, " + Output.list[InputHours].main.temp + "C°"
+        console.log("Saturday, " + Math.round(Output.list[InputHours].main.temp) + "F°")
+        document.querySelector("div.Text.Obj" + InputDays).innerHTML = "Saturday " + Math.round(Output.list[InputHours].main.temp) + "F°"
         break;
     }
 }
